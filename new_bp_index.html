@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Businessplan-Generator – Gründungszuschuss</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --blue: #3b7cb8;
+    --blue-dark: #2c5d8f;
+    --blue-deep: #1a3d63;
+    --blue-light: #e8f1fa;
+    --blue-mid: #c5daf0;
+    --orange: #c9622f;
+    --orange-light: #f5e8e0;
+    --cream: #f5f0e6;
+    --surface: #fdfbf6;
+    --text: #1a1a2e;
+    --text-mid: #4a5568;
+    --text-soft: #8896a8;
+    --border: #dde5ef;
+    --success: #2d8a5e;
+    --radius: 12px;
+    --radius-lg: 20px;
+    --shadow: 0 4px 24px rgba(59,124,184,0.10);
+    --shadow-lg: 0 12px 48px rgba(59,124,184,0.15);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--blue-deep);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  }
+  .header-inner {
+    max-width: 820px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+  .logo {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: -0.3px;
+  }
+  .logo span { color: #7fc4f5; }
+  .step-badge {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+  }
+  .step-badge b { color: #fff; }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    background: var(--blue-deep);
+    padding: 0 24px 16px;
+  }
+  .progress-track {
+    max-width: 820px;
+    margin: 0 auto;
+    height: 4px;
+    background: rgba(255,255,255,0.15);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #7fc4f5, #3b7cb8);
+    border-radius: 99px;
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+    width: 10%;
+  }
+
+  /* ── Main layout ── */
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  /* ── Step card ── */
+  .step-card {
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+    display: none;
+    animation: slideIn 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+  .step-card.active { display: block; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-header {
+    background: linear-gradient(135deg, var(--blue) 0%, var(--blue-dark) 100%);
+    padding: 36px 40px 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .step-header::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 50%;
+  }
+  .step-header::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; right: 80px;
+    width: 120px; height: 120px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 50%;
+  }
+  .step-number {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 8px;
+  }
+  .step-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+  }
+  .step-subtitle {
+    margin-top: 8px;
+    font-size: 15px;
+    color: rgba(255,255,255,0.7);
+  }
+
+  /* ── Form fields ── */
+  .step-body {
+    padding: 36px 40px 32px;
+  }
+
+  .field-group {
+    display: grid;
+    gap: 20px;
+  }
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) {
+    .field-row { grid-template-columns: 1fr; }
+    .step-header { padding: 28px 24px; }
+    .step-body { padding: 28px 24px; }
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+  }
+  .field label {
+    font-family: 'Sora', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: 0.1px;
+  }
+  .field label .req { color: var(--orange); margin-left: 2px; }
+  .field .hint {
+    font-size: 12px;
+    color: var(--text-soft);
+    margin-top: -4px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    color: var(--text);
+    background: #fff;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(59,124,184,0.12);
+    background: var(--blue-light);
+  }
+  input::placeholder, textarea::placeholder { color: var(--text-soft); }
+  textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+  select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238896a8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; }
+
+  /* Checkbox group */
+  .checkbox-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+  }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #fff;
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--blue-mid); background: var(--blue-light); }
+  .check-item input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; }
+  .check-item span { font-size: 14px; color: var(--text-mid); }
+  .check-item.checked { border-color: var(--blue); background: var(--blue-light); }
+  .check-item.checked span { color: var(--blue-dark); font-weight: 500; }
+
+  /* Radio group */
+  .radio-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .radio-pill {
+    padding: 9px 18px;
+    border: 1.5px solid var(--border);
+    border-radius: 99px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text-mid);
+    background: #fff;
+    transition: all 0.2s;
+    user-select: none;
+  }
+  .radio-pill:hover { border-color: var(--blue); color: var(--blue); }
+  .radio-pill.selected { border-color: var(--blue); background: var(--blue); color: #fff; font-weight: 500; }
+  .radio-pill input { display: none; }
+
+  /* Product card */
+  .product-card {
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+    background: #fff;
+    position: relative;
+  }
+  .product-card-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--blue);
+    margin-bottom: 14px;
+  }
+
+  /* Section divider */
+  .section-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--text-soft);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 4px;
+  }
+
+  /* ── Navigation ── */
+  .step-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 40px 32px;
+    border-top: 1px solid var(--border);
+    gap: 12px;
+  }
+  @media (max-width: 600px) { .step-nav { padding: 20px 24px 28px; } }
+
+  .btn {
+    font-family: 'Sora', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 13px 28px;
+    border-radius: var(--radius);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-back {
+    background: transparent;
+    color: var(--text-soft);
+    border: 1.5px solid var(--border);
+  }
+  .btn-back:hover { border-color: var(--blue-mid); color: var(--text-mid); }
+  .btn-next {
+    background: var(--blue);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(59,124,184,0.3);
+  }
+  .btn-next:hover { background: var(--blue-dark); transform: translateY(-1px); box-shadow: 0 6px 20px rgba(59,124,184,0.4); }
+  .btn-submit {
+    background: var(--orange);
+    color: #fff;
+    padding: 14px 36px;
+    font-size: 16px;
+    box-shadow: 0 4px 14px rgba(201,98,47,0.35);
+  }
+  .btn-submit:hover { background: #b0521f; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(201,98,47,0.45); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+  .nav-spacer { flex: 1; }
+
+  /* ── Success screen ── */
+  #success-screen {
+    display: none;
+    text-align: center;
+    padding: 80px 40px;
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+  }
+  .success-icon {
+    width: 80px; height: 80px;
+    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 36px;
+  }
+  #success-screen h2 {
+    font-family: 'Sora', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 14px;
+  }
+  #success-screen p { font-size: 16px; color: var(--text-mid); max-width: 480px; margin: 0 auto; line-height: 1.7; }
+
+  /* ── Error banner ── */
+  .error-banner {
+    display: none;
+    background: #fef2f2;
+    border: 1.5px solid #fca5a5;
+    color: #b91c1c;
+    padding: 12px 16px;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  .error-banner.show { display: block; }
+
+  /* Sending overlay */
+  #sending-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(26,61,99,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+  }
+  #sending-overlay.show { display: flex; }
+  .spinner {
+    width: 48px; height: 48px;
+    border: 4px solid rgba(255,255,255,0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  #sending-overlay p { color: #fff; font-family: 'Sora',sans-serif; font-size: 16px; font-weight: 500; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo">Business<span>Plan</span> Generator</div>
+    <div class="step-badge">Schritt <b id="header-step">1</b> von 10</div>
+  </div>
+</header>
+<div class="progress-wrap">
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+</div>
+
+<div class="container">
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 1 – Persönliche Daten
+  ════════════════════════════════════════ -->
+  <div class="step-card active" id="step-1">
+    <div class="step-header">
+      <div class="step-number">Schritt 1 von 10</div>
+      <div class="step-title">Persönliche Daten</div>
+      <div class="step-subtitle">Ihre Kontaktinformationen für den Gründungszuschuss-Antrag</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field-row">
+          <div class="field">
+            <label>Vorname <span class="req">*</span></label>
+            <input type="text" id="vorname" placeholder="Max" required>
+          </div>
+          <div class="field">
+            <label>Nachname <span class="req">*</span></label>
+            <input type="text" id="nachname" placeholder="Mustermann" required>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>E-Mail <span class="req">*</span></label>
+            <input type="email" id="email" placeholder="max@beispiel.de" required>
+          </div>
+          <div class="field">
+            <label>Telefon</label>
+            <input type="tel" id="telefon" placeholder="+49 170 1234567">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Geburtsdatum</label>
+            <input type="date" id="geburtsdatum">
+          </div>
+          <div class="field">
+            <label>Aktuelle Situation <span class="req">*</span></label>
+            <select id="situation">
+              <option value="">Bitte wählen …</option>
+              <option>ALG I – Arbeitslosengeld I</option>
+              <option>ALG II – Bürgergeld</option>
+              <option>Kurz vor Arbeitslosigkeit</option>
+              <option>Beschäftigt (Kündigung eingereicht)</option>
+              <option>Sonstiges</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Wohnadresse</label>
+          <input type="text" id="adresse" placeholder="Musterstraße 12, 10115 Berlin">
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <div></div>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(1)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 2 – Gründungsvorhaben
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-2">
+    <div class="step-header">
+      <div class="step-number">Schritt 2 von 10</div>
+      <div class="step-title">Gründungsvorhaben</div>
+      <div class="step-subtitle">Die wichtigsten Eckdaten Ihres neuen Unternehmens</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field-row">
+          <div class="field">
+            <label>Firmenname <span class="req">*</span></label>
+            <input type="text" id="firmenname" placeholder="Meine Firma GmbH">
+          </div>
+          <div class="field">
+            <label>Geplantes Gründungsdatum</label>
+            <input type="date" id="gruendungsdatum">
+          </div>
+        </div>
+        <div class="field">
+          <label>Rechtsform <span class="req">*</span></label>
+          <div class="radio-group" id="rechtsform-group">
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="Einzelunternehmen"> Einzelunternehmen</label>
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="Freiberufler"> Freiberufler</label>
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="UG (haftungsbeschränkt)"> UG</label>
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="GmbH"> GmbH</label>
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="GbR"> GbR</label>
+            <label class="radio-pill"><input type="radio" name="rechtsform" value="Noch offen"> Noch offen</label>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Branche <span class="req">*</span></label>
+            <select id="branche">
+              <option value="">Bitte wählen …</option>
+              <option>IT & Software</option>
+              <option>Beratung & Coaching</option>
+              <option>Handel & E-Commerce</option>
+              <option>Handwerk & Produktion</option>
+              <option>Gesundheit & Wellness</option>
+              <option>Marketing & Design</option>
+              <option>Bildung & Training</option>
+              <option>Gastronomie & Lebensmittel</option>
+              <option>Immobilien & Bauwesen</option>
+              <option>Dienstleistungen (Sonstiges)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Geschäftsadresse</label>
+            <input type="text" id="geschaeftsadresse" placeholder="Homeoffice / Büro / Gewerberaum">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(2)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(2)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 3 – Gründerprofil
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-3">
+    <div class="step-header">
+      <div class="step-number">Schritt 3 von 10</div>
+      <div class="step-title">Gründerprofil</div>
+      <div class="step-subtitle">Ihre Qualifikationen und Erfahrungen überzeugen die Agentur für Arbeit</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field">
+          <label>Höchster Bildungsabschluss <span class="req">*</span></label>
+          <select id="bildung">
+            <option value="">Bitte wählen …</option>
+            <option>Kein Abschluss</option>
+            <option>Hauptschulabschluss</option>
+            <option>Mittlere Reife / Realschulabschluss</option>
+            <option>Abitur / Fachabitur</option>
+            <option>Berufsausbildung</option>
+            <option>Techniker / Meister</option>
+            <option>Bachelor</option>
+            <option>Master / Diplom / Magister</option>
+            <option>Promotion / Doktorat</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Relevante Berufserfahrung <span class="req">*</span></label>
+          <textarea id="berufserfahrung" placeholder="Beschreiben Sie Ihre relevante Berufserfahrung (Branche, Dauer, Tätigkeiten) …" rows="4"></textarea>
+        </div>
+        <div class="field">
+          <label>Relevante Zertifikate / Weiterbildungen</label>
+          <input type="text" id="zertifikate" placeholder="z.B. Projektmanagement-Zertifikat, IHK-Abschluss, …">
+          <span class="hint">Kommagetrennt angeben, falls mehrere</span>
+        </div>
+        <div class="field">
+          <label>Motivation zur Gründung <span class="req">*</span></label>
+          <textarea id="motivation" placeholder="Warum möchten Sie sich selbstständig machen? Was treibt Sie an?" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>Ihre größten Stärken als Gründer/in</label>
+          <input type="text" id="staerken" placeholder="z.B. Kundenorientierung, technisches Know-how, Netzwerk …">
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(3)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(3)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 4 – Geschäftsidee
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-4">
+    <div class="step-header">
+      <div class="step-number">Schritt 4 von 10</div>
+      <div class="step-title">Geschäftsidee</div>
+      <div class="step-subtitle">Was bieten Sie an und welchen Nutzen schaffen Sie für Ihre Kunden?</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field">
+          <label>Kurzbeschreibung der Geschäftsidee <span class="req">*</span></label>
+          <input type="text" id="idee-kurz" placeholder="Ein Satz: z.B. „Ich biete Online-Coaching für Frauen im Karrierewandel an."">
+        </div>
+        <div class="field">
+          <label>Detaillierte Beschreibung <span class="req">*</span></label>
+          <textarea id="idee-detail" placeholder="Beschreiben Sie Ihr Angebot ausführlich: Was genau bieten Sie an? Wie funktioniert es? Was macht es besonders?" rows="5"></textarea>
+        </div>
+        <div class="field">
+          <label>Welches Problem lösen Sie? <span class="req">*</span></label>
+          <textarea id="problem" placeholder="Welchen konkreten Schmerz oder welche Herausforderung Ihrer Zielkunden adressieren Sie?" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <label>Konkreter Kundennutzen <span class="req">*</span></label>
+          <textarea id="nutzen" placeholder="Was ist das konkrete Ergebnis oder der Mehrwert für Ihre Kunden nach der Zusammenarbeit?" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(4)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(4)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 5 – Zielgruppe
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-5">
+    <div class="step-header">
+      <div class="step-number">Schritt 5 von 10</div>
+      <div class="step-title">Zielgruppe</div>
+      <div class="step-subtitle">Je genauer Sie Ihre Kunden kennen, desto überzeugender der Businessplan</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field">
+          <label>Beschreibung Ihrer Zielgruppe <span class="req">*</span></label>
+          <textarea id="zielgruppe" placeholder="Wer sind Ihre idealen Kunden? Beschreiben Sie konkret …" rows="3"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Demografische Merkmale</label>
+            <input type="text" id="demografik" placeholder="Alter, Geschlecht, Einkommen, Bildung …">
+          </div>
+          <div class="field">
+            <label>Marktregion</label>
+            <select id="marktregion">
+              <option value="">Bitte wählen …</option>
+              <option>Lokal (Stadt / Kreis)</option>
+              <option>Regional (Bundesland)</option>
+              <option>National (Deutschland)</option>
+              <option>DACH (D + A + CH)</option>
+              <option>International</option>
+              <option>Online (weltweit)</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Kundentyp <span class="req">*</span></label>
+          <div class="radio-group" id="kundentyp-group">
+            <label class="radio-pill"><input type="radio" name="kundentyp" value="B2C"> B2C – Privatkunden</label>
+            <label class="radio-pill"><input type="radio" name="kundentyp" value="B2B"> B2B – Geschäftskunden</label>
+            <label class="radio-pill"><input type="radio" name="kundentyp" value="B2B und B2C"> Beides (B2B + B2C)</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Bedürfnisse & Wünsche Ihrer Zielgruppe</label>
+          <textarea id="beduerfnisse" placeholder="Was wünschen sich Ihre Kunden? Was ist ihnen wichtig?" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(5)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(5)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 6 – Markt & Wettbewerb
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-6">
+    <div class="step-header">
+      <div class="step-number">Schritt 6 von 10</div>
+      <div class="step-title">Markt & Wettbewerb</div>
+      <div class="step-subtitle">Zeigen Sie, dass Sie Ihren Markt und die Konkurrenz kennen</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field">
+          <label>Aktuelle Marktsituation <span class="req">*</span></label>
+          <textarea id="markt" placeholder="Wie groß ist der Markt? Wächst er? Gibt es aktuelle Trends, die Ihnen zugutekommen?" rows="3"></textarea>
+        </div>
+
+        <div class="section-label">Wettbewerber 1</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Name / Beschreibung</label>
+            <input type="text" id="konkurrent1-name" placeholder="z.B. Anbieter XY">
+          </div>
+          <div class="field">
+            <label>Schwächen / Lücken</label>
+            <input type="text" id="konkurrent1-schwaeche" placeholder="Was machen sie nicht gut?">
+          </div>
+        </div>
+
+        <div class="section-label">Wettbewerber 2</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Name / Beschreibung</label>
+            <input type="text" id="konkurrent2-name" placeholder="z.B. Anbieter YZ">
+          </div>
+          <div class="field">
+            <label>Schwächen / Lücken</label>
+            <input type="text" id="konkurrent2-schwaeche" placeholder="Was machen sie nicht gut?">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Ihr USP – Alleinstellungsmerkmal <span class="req">*</span></label>
+          <textarea id="usp" placeholder="Was können Sie besser / anders als die Konkurrenz? Warum sollten Kunden Sie wählen?" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(6)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(6)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 7 – Marketing
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-7">
+    <div class="step-header">
+      <div class="step-number">Schritt 7 von 10</div>
+      <div class="step-title">Marketing & Vertrieb</div>
+      <div class="step-subtitle">Wie gewinnen Sie Ihre ersten Kunden?</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="field">
+          <label>Marketing-Kanäle <span class="req">*</span></label>
+          <div class="checkbox-grid" id="marketing-kanäle">
+            <label class="check-item"><input type="checkbox" value="Instagram"> <span>Instagram</span></label>
+            <label class="check-item"><input type="checkbox" value="LinkedIn"> <span>LinkedIn</span></label>
+            <label class="check-item"><input type="checkbox" value="Facebook"> <span>Facebook</span></label>
+            <label class="check-item"><input type="checkbox" value="TikTok"> <span>TikTok</span></label>
+            <label class="check-item"><input type="checkbox" value="YouTube"> <span>YouTube</span></label>
+            <label class="check-item"><input type="checkbox" value="Google Ads"> <span>Google Ads</span></label>
+            <label class="check-item"><input type="checkbox" value="SEO / Website"> <span>SEO / Website</span></label>
+            <label class="check-item"><input type="checkbox" value="E-Mail-Marketing"> <span>E-Mail-Marketing</span></label>
+            <label class="check-item"><input type="checkbox" value="Empfehlungen / Mundpropaganda"> <span>Empfehlungen</span></label>
+            <label class="check-item"><input type="checkbox" value="Netzwerk / Events"> <span>Netzwerk / Events</span></label>
+            <label class="check-item"><input type="checkbox" value="Kooperationen"> <span>Kooperationen</span></label>
+            <label class="check-item"><input type="checkbox" value="Kaltakquise"> <span>Kaltakquise</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Erstkundengewinnung – konkrete Maßnahmen <span class="req">*</span></label>
+          <textarea id="erstkundengewinnung" placeholder="Was sind Ihre konkreten ersten Schritte, um die ersten 5–10 Kunden zu gewinnen?" rows="3"></textarea>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Preisstrategie</label>
+            <select id="preisstrategie">
+              <option value="">Bitte wählen …</option>
+              <option>Premium – höhere Preise als Wettbewerb</option>
+              <option>Marktüblich – vergleichbare Preise</option>
+              <option>Niedrigpreisig – günstiger einsteigen</option>
+              <option>Freemium – kostenloser Einstieg</option>
+              <option>Value-based – nach Kundennutzen</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Kundenbindungs-Maßnahmen</label>
+            <input type="text" id="kundenbindung" placeholder="z.B. Newsletter, Retainer, Community, …">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(7)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(7)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 8 – Umsatzplanung
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-8">
+    <div class="step-header">
+      <div class="step-number">Schritt 8 von 10</div>
+      <div class="step-title">Umsatzplanung</div>
+      <div class="step-subtitle">Realistische Zahlen sind die Grundlage eines überzeugenden Finanzplans</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+
+        <div class="product-card">
+          <div class="product-card-label">Produkt / Leistung 1</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Bezeichnung <span class="req">*</span></label>
+              <input type="text" id="p1-name" placeholder="z.B. 1:1 Coaching (60 min)">
+            </div>
+            <div class="field">
+              <label>Preis (€ brutto) <span class="req">*</span></label>
+              <input type="number" id="p1-preis" placeholder="150" min="0">
+            </div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label>Verkäufe pro Monat (Jahr 1) <span class="req">*</span></label>
+            <input type="number" id="p1-menge" placeholder="8" min="0">
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-label">Produkt / Leistung 2 (optional)</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Bezeichnung</label>
+              <input type="text" id="p2-name" placeholder="z.B. Online-Kurs">
+            </div>
+            <div class="field">
+              <label>Preis (€ brutto)</label>
+              <input type="number" id="p2-preis" placeholder="397" min="0">
+            </div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label>Verkäufe pro Monat (Jahr 1)</label>
+            <input type="number" id="p2-menge" placeholder="5" min="0">
+          </div>
+        </div>
+
+        <div class="product-card">
+          <div class="product-card-label">Produkt / Leistung 3 (optional)</div>
+          <div class="field-row">
+            <div class="field">
+              <label>Bezeichnung</label>
+              <input type="text" id="p3-name" placeholder="z.B. Retainer / Abo">
+            </div>
+            <div class="field">
+              <label>Preis (€ brutto)</label>
+              <input type="number" id="p3-preis" placeholder="299" min="0">
+            </div>
+          </div>
+          <div class="field" style="margin-top:12px">
+            <label>Verkäufe pro Monat (Jahr 1)</label>
+            <input type="number" id="p3-menge" placeholder="3" min="0">
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Umsatzwachstum Jahr 2</label>
+            <select id="wachstum-j2">
+              <option value="10">+10%</option>
+              <option value="20">+20%</option>
+              <option value="30" selected>+30%</option>
+              <option value="50">+50%</option>
+              <option value="75">+75%</option>
+              <option value="100">+100%</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Umsatzwachstum Jahr 3</label>
+            <select id="wachstum-j3">
+              <option value="10">+10%</option>
+              <option value="20">+20%</option>
+              <option value="30" selected>+30%</option>
+              <option value="50">+50%</option>
+              <option value="75">+75%</option>
+              <option value="100">+100%</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Geschätzter Zahlungsausfall</label>
+          <div class="radio-group" id="zahlungsausfall-group">
+            <label class="radio-pill"><input type="radio" name="zahlungsausfall" value="0,5%"> 0,5%</label>
+            <label class="radio-pill"><input type="radio" name="zahlungsausfall" value="1,8%" checked> 1,8% (Standard)</label>
+            <label class="radio-pill"><input type="radio" name="zahlungsausfall" value="3%"> 3%</label>
+            <label class="radio-pill"><input type="radio" name="zahlungsausfall" value="5%"> 5%</label>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(8)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(8)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 9 – Kosten
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-9">
+    <div class="step-header">
+      <div class="step-number">Schritt 9 von 10</div>
+      <div class="step-title">Kostenplanung</div>
+      <div class="step-subtitle">Gründungs- und laufende Betriebskosten – so realistisch wie möglich</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+
+        <div class="section-label">Gründungskosten (einmalig, in €)</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Anmeldungen / Notar</label>
+            <input type="number" id="k-anmeldung" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label>Ausstattung / Equipment</label>
+            <input type="number" id="k-ausstattung" placeholder="0" min="0">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Website / Software</label>
+            <input type="number" id="k-website" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label>Sonstige Gründungskosten</label>
+            <input type="number" id="k-sonstige-einmalig" placeholder="0" min="0">
+          </div>
+        </div>
+
+        <div class="section-label">Monatliche Fixkosten (in €/Monat)</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Miete / Coworking</label>
+            <input type="number" id="k-miete" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label>Buchhaltung / Steuerberater</label>
+            <input type="number" id="k-buchhaltung" placeholder="100" min="0">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Versicherungen</label>
+            <input type="number" id="k-versicherung" placeholder="150" min="0">
+          </div>
+          <div class="field">
+            <label>Software-Abos (Tools)</label>
+            <input type="number" id="k-software" placeholder="50" min="0">
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Marketing-Budget / Monat</label>
+            <input type="number" id="k-marketing" placeholder="200" min="0">
+          </div>
+          <div class="field">
+            <label>Sonstige laufende Kosten</label>
+            <input type="number" id="k-sonstige" placeholder="0" min="0">
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Personalkosten (falls geplant)</label>
+          <input type="text" id="k-personal" placeholder="z.B. Freie Mitarbeiter ab Monat 6, ca. 800€/Monat – oder: keine">
+        </div>
+
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(9)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-next" onclick="next(9)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 10 – Finanzierung
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-10">
+    <div class="step-header">
+      <div class="step-number">Schritt 10 von 10</div>
+      <div class="step-title">Finanzierung</div>
+      <div class="step-subtitle">Wie ist Ihre Gründung finanziert? Fast geschafft!</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="error-banner" id="error-banner">Bitte füllen Sie alle Pflichtfelder aus.</div>
+
+        <div class="field-row">
+          <div class="field">
+            <label>Eigenkapital (€) <span class="req">*</span></label>
+            <input type="number" id="eigenkapital" placeholder="5000" min="0">
+            <span class="hint">Ersparnisse / Eigenmittel</span>
+          </div>
+          <div class="field">
+            <label>Gründungszuschuss (€)</label>
+            <input type="number" id="gruendungszuschuss" placeholder="10000" min="0">
+            <span class="hint">Erwartete Förderung AfA</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Bankkredit / Darlehen (€)</label>
+            <input type="number" id="kredit" placeholder="0" min="0">
+          </div>
+          <div class="field">
+            <label>Sonstige Förderungen (€)</label>
+            <input type="number" id="foerderung" placeholder="0" min="0">
+            <span class="hint">KfW, BAFA, Landesförderung …</span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Anmerkungen zur Finanzierung</label>
+          <textarea id="finanzierung-anmerkung" placeholder="Gibt es besondere Umstände oder Pläne zur Finanzierung, die im Plan erwähnt werden sollen?" rows="3"></textarea>
+        </div>
+
+        <div style="background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:18px 20px;margin-top:8px">
+          <p style="font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--blue-dark);margin-bottom:6px">Was passiert als nächstes?</p>
+          <p style="font-size:14px;color:var(--text-mid);line-height:1.6">Nach dem Absenden erstellt die KI automatisch Ihren <b>vollständigen Businessplan</b> (11 Kapitel) und den <b>Finanzplan (3 Jahre)</b>. Beides wird als Google Doc + Google Sheet in der Ablage gespeichert. Sie erhalten einen Link per E-Mail.</p>
+        </div>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(10)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-submit" onclick="submitForm()">Businessplan generieren →</button>
+    </div>
+  </div>
+
+  <!-- ════════ SUCCESS ════════ -->
+  <div id="success-screen">
+    <div class="success-icon">✓</div>
+    <h2>Ihre Daten wurden übermittelt!</h2>
+    <p>Der Businessplan und Finanzplan werden jetzt automatisch generiert. Das dauert ca. 2–4 Minuten. Sie erhalten einen Link per E-Mail, sobald alles fertig ist.</p>
+  </div>
+
+</div><!-- /container -->
+
+<!-- Sending overlay -->
+<div id="sending-overlay">
+  <div class="spinner"></div>
+  <p>Businessplan wird generiert …</p>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────
+let currentStep = 1;
+const TOTAL = 10;
+
+const WEBHOOK_URL = 'https://hook.eu1.make.com/y6qwlg6nn3r914f90akgvdou34ksyd3v';
+
+// ── Navigation ─────────────────────────────────────────
+function showStep(n) {
+  document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+  const card = document.getElementById('step-' + n);
+  if (card) card.classList.add('active');
+  currentStep = n;
+  document.getElementById('header-step').textContent = n;
+  document.getElementById('progress-fill').style.width = (n / TOTAL * 100) + '%';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function next(step) {
+  if (!validateStep(step)) return;
+  if (step < TOTAL) showStep(step + 1);
+}
+
+function back(step) {
+  if (step > 1) showStep(step - 1);
+}
+
+// ── Pill / checkbox interactivity ──────────────────────
+document.querySelectorAll('.radio-pill').forEach(pill => {
+  pill.addEventListener('click', function() {
+    const name = this.querySelector('input').name;
+    document.querySelectorAll(`.radio-pill input[name="${name}"]`).forEach(r => {
+      r.closest('.radio-pill').classList.remove('selected');
+    });
+    this.classList.add('selected');
+  });
+  if (pill.querySelector('input').checked) pill.classList.add('selected');
+});
+
+document.querySelectorAll('.check-item').forEach(item => {
+  const cb = item.querySelector('input[type="checkbox"]');
+  cb.addEventListener('change', () => item.classList.toggle('checked', cb.checked));
+});
+
+// ── Validation ─────────────────────────────────────────
+function validateStep(step) {
+  const card = document.getElementById('step-' + step);
+  const required = card.querySelectorAll('input[required], select[required], textarea[required]');
+  let ok = true;
+  required.forEach(el => {
+    if (!el.value.trim()) {
+      el.style.borderColor = '#e24b4a';
+      el.addEventListener('input', () => el.style.borderColor = '', { once: true });
+      ok = false;
+    }
+  });
+  return ok;
+}
+
+// ── Collect data ───────────────────────────────────────
+function collectData() {
+  const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+  const radio = name => { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : ''; };
+  const checks = groupId => {
+    const cbs = document.querySelectorAll(`#${groupId} input[type="checkbox"]:checked`);
+    return Array.from(cbs).map(c => c.value).join(', ');
+  };
+
+  return {
+    // Schritt 1
+    vorname: v('vorname'), nachname: v('nachname'),
+    email: v('email'), telefon: v('telefon'),
+    geburtsdatum: v('geburtsdatum'), situation: v('situation'), adresse: v('adresse'),
+    // Schritt 2
+    firmenname: v('firmenname'), gruendungsdatum: v('gruendungsdatum'),
+    rechtsform: radio('rechtsform'), branche: v('branche'), geschaeftsadresse: v('geschaeftsadresse'),
+    // Schritt 3
+    bildung: v('bildung'), berufserfahrung: v('berufserfahrung'),
+    zertifikate: v('zertifikate'), motivation: v('motivation'), staerken: v('staerken'),
+    // Schritt 4
+    idee_kurz: v('idee-kurz'), idee_detail: v('idee-detail'),
+    problem: v('problem'), nutzen: v('nutzen'),
+    // Schritt 5
+    zielgruppe: v('zielgruppe'), demografik: v('demografik'),
+    marktregion: v('marktregion'), kundentyp: radio('kundentyp'), beduerfnisse: v('beduerfnisse'),
+    // Schritt 6
+    markt: v('markt'),
+    konkurrent1_name: v('konkurrent1-name'), konkurrent1_schwaeche: v('konkurrent1-schwaeche'),
+    konkurrent2_name: v('konkurrent2-name'), konkurrent2_schwaeche: v('konkurrent2-schwaeche'),
+    usp: v('usp'),
+    // Schritt 7
+    marketing_kanaele: checks('marketing-kanäle'),
+    erstkundengewinnung: v('erstkundengewinnung'),
+    preisstrategie: v('preisstrategie'), kundenbindung: v('kundenbindung'),
+    // Schritt 8
+    p1_name: v('p1-name'), p1_preis: v('p1-preis'), p1_menge: v('p1-menge'),
+    p2_name: v('p2-name'), p2_preis: v('p2-preis'), p2_menge: v('p2-menge'),
+    p3_name: v('p3-name'), p3_preis: v('p3-preis'), p3_menge: v('p3-menge'),
+    wachstum_j2: v('wachstum-j2') + '%', wachstum_j3: v('wachstum-j3') + '%',
+    zahlungsausfall: radio('zahlungsausfall'),
+    // Schritt 9
+    k_anmeldung: v('k-anmeldung'), k_ausstattung: v('k-ausstattung'),
+    k_website: v('k-website'), k_sonstige_einmalig: v('k-sonstige-einmalig'),
+    k_miete: v('k-miete'), k_buchhaltung: v('k-buchhaltung'),
+    k_versicherung: v('k-versicherung'), k_software: v('k-software'),
+    k_marketing: v('k-marketing'), k_sonstige: v('k-sonstige'), k_personal: v('k-personal'),
+    // Schritt 10
+    eigenkapital: v('eigenkapital'), gruendungszuschuss: v('gruendungszuschuss'),
+    kredit: v('kredit'), foerderung: v('foerderung'),
+    finanzierung_anmerkung: v('finanzierung-anmerkung'),
+    // Meta
+    submitted_at: new Date().toISOString()
+  };
+}
+
+// ── Submit ─────────────────────────────────────────────
+async function submitForm() {
+  if (!validateStep(10)) {
+    document.getElementById('error-banner').classList.add('show');
+    return;
+  }
+  document.getElementById('error-banner').classList.remove('show');
+  document.getElementById('sending-overlay').classList.add('show');
+
+  const data = collectData();
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      mode: 'no-cors'
+    });
+  } catch(e) {
+    console.warn('Webhook error (no-cors expected):', e);
+  }
+
+  document.getElementById('sending-overlay').classList.remove('show');
+  document.querySelectorAll('.step-card').forEach(c => c.style.display = 'none');
+  document.getElementById('success-screen').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>
