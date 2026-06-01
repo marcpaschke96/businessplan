@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Businessplan-Generator – Gründungszuschuss</title>
+<title>GründerGPT – Businessplan für den Gründungszuschuss</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
@@ -418,8 +418,8 @@
 
 <header>
   <div class="header-inner">
-    <div class="logo">Business<span>Plan</span> Generator</div>
-    <div class="step-badge">Schritt <b id="header-step">1</b> von 10</div>
+    <div class="logo">Gründer<span>GPT</span></div>
+    <div class="step-badge">Schritt <b id="header-step">1</b> von 11</div>
   </div>
 </header>
 <div class="progress-wrap">
@@ -433,7 +433,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card active" id="step-1">
     <div class="step-header">
-      <div class="step-number">Schritt 1 von 10</div>
+      <div class="step-number">Schritt 1 von 11</div>
       <div class="step-title">Persönliche Daten</div>
       <div class="step-subtitle">Ihre Kontaktinformationen für den Gründungszuschuss-Antrag</div>
     </div>
@@ -480,6 +480,27 @@
           <label>Wohnadresse</label>
           <input type="text" id="adresse" placeholder="Musterstraße 12, 10115 Berlin">
         </div>
+
+        <div class="section-label">Agentur für Arbeit</div>
+        <div class="field">
+          <label>Kundennummer bei der Agentur für Arbeit <span class="req">*</span></label>
+          <input type="text" id="kundennummer-afa" placeholder="z.B. 1234567890" required>
+          <span class="hint">Diese finden Sie auf Ihrem Bescheid oder Ihrer Kundenkarte der AfA</span>
+        </div>
+
+        <div class="section-label">Ihre finanzielle Situation</div>
+        <div class="field-row">
+          <div class="field">
+            <label>Monatliche private Lebenshaltungskosten (€) <span class="req">*</span></label>
+            <input type="number" id="lebenshaltungskosten" placeholder="1800" min="0" required>
+            <span class="hint">Miete, Lebensmittel, Versicherungen, Auto, etc.</span>
+          </div>
+          <div class="field">
+            <label>Monatliches ALG I (€) <span class="req">*</span></label>
+            <input type="number" id="alg1-betrag" placeholder="1200" min="0" required>
+            <span class="hint">Aktueller oder voraussichtlicher ALG-I-Betrag</span>
+          </div>
+        </div>
       </div>
     </div>
     <div class="step-nav">
@@ -494,7 +515,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-2">
     <div class="step-header">
-      <div class="step-number">Schritt 2 von 10</div>
+      <div class="step-number">Schritt 2 von 11</div>
       <div class="step-title">Gründungsvorhaben</div>
       <div class="step-subtitle">Die wichtigsten Eckdaten Ihres neuen Unternehmens</div>
     </div>
@@ -557,7 +578,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-3">
     <div class="step-header">
-      <div class="step-number">Schritt 3 von 10</div>
+      <div class="step-number">Schritt 3 von 11</div>
       <div class="step-title">Gründerprofil</div>
       <div class="step-subtitle">Ihre Qualifikationen und Erfahrungen überzeugen die Agentur für Arbeit</div>
     </div>
@@ -609,7 +630,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-4">
     <div class="step-header">
-      <div class="step-number">Schritt 4 von 10</div>
+      <div class="step-number">Schritt 4 von 11</div>
       <div class="step-title">Geschäftsidee</div>
       <div class="step-subtitle">Was bieten Sie an und welchen Nutzen schaffen Sie für Ihre Kunden?</div>
     </div>
@@ -645,7 +666,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-5">
     <div class="step-header">
-      <div class="step-number">Schritt 5 von 10</div>
+      <div class="step-number">Schritt 5 von 11</div>
       <div class="step-title">Zielgruppe</div>
       <div class="step-subtitle">Je genauer Sie Ihre Kunden kennen, desto überzeugender der Businessplan</div>
     </div>
@@ -699,7 +720,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-6">
     <div class="step-header">
-      <div class="step-number">Schritt 6 von 10</div>
+      <div class="step-number">Schritt 6 von 11</div>
       <div class="step-title">Markt & Wettbewerb</div>
       <div class="step-subtitle">Zeigen Sie, dass Sie Ihren Markt und die Konkurrenz kennen</div>
     </div>
@@ -752,7 +773,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-7">
     <div class="step-header">
-      <div class="step-number">Schritt 7 von 10</div>
+      <div class="step-number">Schritt 7 von 11</div>
       <div class="step-title">Marketing & Vertrieb</div>
       <div class="step-subtitle">Wie gewinnen Sie Ihre ersten Kunden?</div>
     </div>
@@ -810,7 +831,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-8">
     <div class="step-header">
-      <div class="step-number">Schritt 8 von 10</div>
+      <div class="step-number">Schritt 8 von 11</div>
       <div class="step-title">Umsatzplanung</div>
       <div class="step-subtitle">Realistische Zahlen sind die Grundlage eines überzeugenden Finanzplans</div>
     </div>
@@ -920,7 +941,7 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-9">
     <div class="step-header">
-      <div class="step-number">Schritt 9 von 10</div>
+      <div class="step-number">Schritt 9 von 11</div>
       <div class="step-title">Kostenplanung</div>
       <div class="step-subtitle">Gründungs- und laufende Betriebskosten – so realistisch wie möglich</div>
     </div>
@@ -1000,14 +1021,12 @@
   ════════════════════════════════════════ -->
   <div class="step-card" id="step-10">
     <div class="step-header">
-      <div class="step-number">Schritt 10 von 10</div>
+      <div class="step-number">Schritt 10 von 11</div>
       <div class="step-title">Finanzierung</div>
       <div class="step-subtitle">Wie ist Ihre Gründung finanziert? Fast geschafft!</div>
     </div>
     <div class="step-body">
       <div class="field-group">
-        <div class="error-banner" id="error-banner">Bitte füllen Sie alle Pflichtfelder aus.</div>
-
         <div class="field-row">
           <div class="field">
             <label>Eigenkapital (€) <span class="req">*</span></label>
@@ -1035,25 +1054,53 @@
           <label>Anmerkungen zur Finanzierung</label>
           <textarea id="finanzierung-anmerkung" placeholder="Gibt es besondere Umstände oder Pläne zur Finanzierung, die im Plan erwähnt werden sollen?" rows="3"></textarea>
         </div>
-
-        <div style="background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:18px 20px;margin-top:8px">
-          <p style="font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--blue-dark);margin-bottom:6px">Was passiert als nächstes?</p>
-          <p style="font-size:14px;color:var(--text-mid);line-height:1.6">Nach dem Absenden erstellt die KI automatisch Ihren <b>vollständigen Businessplan</b> (11 Kapitel) und den <b>Finanzplan (3 Jahre)</b>. Beides wird als Google Doc + Google Sheet in der Ablage gespeichert. Sie erhalten einen Link per E-Mail.</p>
-        </div>
       </div>
     </div>
     <div class="step-nav">
       <button class="btn btn-back" onclick="back(10)">← Zurück</button>
       <div class="nav-spacer"></div>
-      <button class="btn btn-submit" onclick="submitForm()">Businessplan generieren →</button>
+      <button class="btn btn-next" onclick="next(10)">Weiter →</button>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       SCHRITT 11 – Abschluss & Absenden
+  ════════════════════════════════════════ -->
+  <div class="step-card" id="step-11">
+    <div class="step-header">
+      <div class="step-number">Schritt 11 von 11</div>
+      <div class="step-title">Fast geschafft! 🎉</div>
+      <div class="step-subtitle">Bitte überprüfen Sie Ihre Angaben und senden Sie das Formular ab</div>
+    </div>
+    <div class="step-body">
+      <div class="field-group">
+        <div class="error-banner" id="error-banner">Bitte füllen Sie alle Pflichtfelder aus.</div>
+
+        <div style="background:var(--blue-light);border:1.5px solid var(--blue-mid);border-radius:var(--radius);padding:24px 24px;margin-bottom:8px">
+          <p style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;color:var(--blue-dark);margin-bottom:10px">Ihre Eingaben sind vollständig.</p>
+          <p style="font-size:15px;color:var(--text-mid);line-height:1.75">Mit einem Klick auf „Jetzt absenden" übermitteln Sie Ihre Daten sicher an uns. Wir erstellen anschließend Ihren persönlichen <b>Businessplan</b> und <b>Finanzplan</b> und senden Ihnen beides per E-Mail zu.</p>
+        </div>
+
+        <div style="border:1.5px solid var(--border);border-radius:var(--radius);padding:20px 24px;background:#fff;">
+          <p style="font-family:'Sora',sans-serif;font-size:13px;font-weight:600;color:var(--text-soft);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px">Ihre Zusammenfassung</p>
+          <div id="summary-content" style="font-size:14px;color:var(--text-mid);line-height:2;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;"></div>
+        </div>
+
+        <p style="font-size:13px;color:var(--text-soft);text-align:center;margin-top:4px">Mit dem Absenden stimmen Sie zu, dass Ihre Daten zur Erstellung Ihres Businessplans verarbeitet werden.</p>
+      </div>
+    </div>
+    <div class="step-nav">
+      <button class="btn btn-back" onclick="back(11)">← Zurück</button>
+      <div class="nav-spacer"></div>
+      <button class="btn btn-submit" onclick="submitForm()">Jetzt absenden →</button>
     </div>
   </div>
 
   <!-- ════════ SUCCESS ════════ -->
   <div id="success-screen">
     <div class="success-icon">✓</div>
-    <h2>Ihre Daten wurden übermittelt!</h2>
-    <p>Der Businessplan und Finanzplan werden jetzt automatisch generiert. Das dauert ca. 2–4 Minuten. Sie erhalten einen Link per E-Mail, sobald alles fertig ist.</p>
+    <h2>Vielen Dank!</h2>
+    <p>Ihre Daten wurden erfolgreich übermittelt. Sie erhalten eine E-Mail mit Ihrem Businessplan und Finanzplan, sobald diese fertiggestellt wurden.<br><br>Dies dauert in der Regel <b>1–2 Werktage</b>.</p>
   </div>
 
 </div><!-- /container -->
@@ -1067,7 +1114,7 @@
 <script>
 // ── State ──────────────────────────────────────────────
 let currentStep = 1;
-const TOTAL = 10;
+const TOTAL = 11;
 
 const WEBHOOK_URL = 'https://hook.eu1.make.com/y6qwlg6nn3r914f90akgvdou34ksyd3v';
 
@@ -1079,6 +1126,7 @@ function showStep(n) {
   currentStep = n;
   document.getElementById('header-step').textContent = n;
   document.getElementById('progress-fill').style.width = (n / TOTAL * 100) + '%';
+  if (n === 11) buildSummary();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -1137,6 +1185,9 @@ function collectData() {
     vorname: v('vorname'), nachname: v('nachname'),
     email: v('email'), telefon: v('telefon'),
     geburtsdatum: v('geburtsdatum'), situation: v('situation'), adresse: v('adresse'),
+    kundennummer_afa: v('kundennummer-afa'),
+    lebenshaltungskosten: v('lebenshaltungskosten'),
+    alg1_betrag: v('alg1-betrag'),
     // Schritt 2
     firmenname: v('firmenname'), gruendungsdatum: v('gruendungsdatum'),
     rechtsform: radio('rechtsform'), branche: v('branche'), geschaeftsadresse: v('geschaeftsadresse'),
@@ -1179,12 +1230,34 @@ function collectData() {
   };
 }
 
+// ── Summary for step 11 ────────────────────────────────
+function buildSummary() {
+  const v = id => { const el = document.getElementById(id); return el ? el.value.trim() : '–'; };
+  const radio = name => { const el = document.querySelector(`input[name="${name}"]:checked`); return el ? el.value : '–'; };
+  const items = [
+    ['Name', v('vorname') + ' ' + v('nachname')],
+    ['E-Mail', v('email')],
+    ['Situation', v('situation')],
+    ['Kundennr. AfA', v('kundennummer-afa')],
+    ['Lebenshaltungskosten', v('lebenshaltungskosten') ? v('lebenshaltungskosten') + ' €/Monat' : '–'],
+    ['ALG I', v('alg1-betrag') ? v('alg1-betrag') + ' €/Monat' : '–'],
+    ['Firmenname', v('firmenname')],
+    ['Rechtsform', radio('rechtsform')],
+    ['Branche', v('branche')],
+    ['Produkt 1', v('p1-name') ? v('p1-name') + ' · ' + v('p1-preis') + '€' : '–'],
+    ['Eigenkapital', v('eigenkapital') ? v('eigenkapital') + ' €' : '–'],
+    ['Gründungszuschuss', v('gruendungszuschuss') ? v('gruendungszuschuss') + ' €' : '–'],
+  ];
+  const container = document.getElementById('summary-content');
+  if (container) {
+    container.innerHTML = items.map(([k, val]) =>
+      `<div><span style="color:var(--text-soft);font-size:12px">${k}</span><br><b style="color:var(--text)">${val}</b></div>`
+    ).join('');
+  }
+}
+
 // ── Submit ─────────────────────────────────────────────
 async function submitForm() {
-  if (!validateStep(10)) {
-    document.getElementById('error-banner').classList.add('show');
-    return;
-  }
   document.getElementById('error-banner').classList.remove('show');
   document.getElementById('sending-overlay').classList.add('show');
 
